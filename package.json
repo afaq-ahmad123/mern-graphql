@@ -1,0 +1,30 @@
+{
+  "name": "mern-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afaq-ahmad123/mern-graphql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/afaq-ahmad123/mern-graphql/issues"
+  },
+  "homepage": "https://github.com/afaq-ahmad123/mern-graphql#readme",
+  "dependencies": {
+    "apollo-server": "^3.10.1",
+    "bcryptjs": "^2.4.3",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.2",
+    "nodemon": "^2.0.19"
+  }
+}
