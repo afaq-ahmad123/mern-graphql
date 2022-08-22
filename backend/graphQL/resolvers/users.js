@@ -11,7 +11,7 @@ function generateToken (user) {
         email: user.email,
         username: user.username,
         createdAt: new Date().toISOString()
-    }, 'secret', { expiresIn: '1h' });
+    }, process.env.SECRET_KEY, { expiresIn: '1h' });
 };
 
 module.exports = {
@@ -51,7 +51,7 @@ module.exports = {
                 token
             }
         },
-        register: async (_, { registerInput: { username, email, password, confirmPassword }, context, info }) => {
+        register: async (_, { registerInput: { username, email, password, confirmPassword } }) => {
             const { errors, valid } = validateRegisterInput(username, email, password, confirmPassword);
             if (!valid) {
                 throw new UserInputError('Errors', { errors });

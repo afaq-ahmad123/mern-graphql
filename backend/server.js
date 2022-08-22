@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const { ApolloServer } = require('apollo-server');
 const mongoose = require('mongoose');
 
@@ -5,7 +8,7 @@ const resolvers = require('./graphQL');
 const typeDefs = require('./graphQL/typeDefs');
 
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers, context: ({req}) => ({ req }) });
 
 mongoose.connect('mongodb://localhost:27017/graphQl').then(() => {
     console.log('DB connected!!');
