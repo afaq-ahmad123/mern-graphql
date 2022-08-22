@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../../Schema/User');
 const { validateRegisterInput, validateLoginInput } = require('../../utils/validators');
-const { UserInputError } = require('apollo-server');
+const { UserInputError } = require('apollo-server-express');
 
 function generateToken (user) {
     return jwt.sign({

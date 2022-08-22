@@ -1,5 +1,5 @@
 
-const { AuthenticationError } = require('apollo-server');
+const { AuthenticationError } = require('apollo-server-express');
 const Post = require('../../Schema/Post');
 const checkAuth = require('../../utils/check-auth');
 
@@ -27,6 +27,10 @@ module.exports = {
         createPost: async (_, { content }, context) => {
             const user = checkAuth(context);
 
+            if (content.trim() === "") {
+                throw new Error('Post body must not be empty');
+            }
+
             const newPost = new Post({
                 user: user.id,
                 username: user.username,
@@ -34,6 +38,10 @@ module.exports = {
                 createdAt: new Date().toISOString()
             });
             const post = await newPost.save();
+
+            context.pubSub.publish('NEW_POST', {
+                newPost: post,
+            });
             return post;
         },
         deletePost: async (_, { id }, context) => {
@@ -50,6 +58,11 @@ module.exports = {
             } catch (err) {
                 throw new Error(err);
             }
+        }
+    },
+    Subscription: {
+        newPost: {
+            subscribe: (_, __, { pubSub }) => pubSub.asyncIterator('NEW_POST')
         }
     }
 };

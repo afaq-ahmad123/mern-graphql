@@ -1,9 +1,13 @@
 
+import { Route, Router } from 'react-router-dom';
+
 function App() {
   return (
-    <div className="App">
-      MERN with graphQL
-    </div>
+    <Router>
+      <Route path='/' element={<></>} />
+      <Route path='/login' element={<></>} />
+      <Route path='/register' element={<></>} />
+    </Router>
   );
 }
 

@@ -1,16 +1,67 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { ApolloServer } = require('apollo-server');
+const { createServer } = require('http');
+const { subscribe, execute } = require('graphql');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+const { PubSub } = require('graphql-subscriptions');
+const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
 
 const resolvers = require('./graphQL');
 const typeDefs = require('./graphQL/typeDefs');
+const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 
-
-const server = new ApolloServer({ typeDefs, resolvers, context: ({req}) => ({ req }) });
 
 mongoose.connect('mongodb://localhost:27017/graphQl').then(() => {
     console.log('DB connected!!');
-    return server.listen({ port: 5012 })
-}).then(res => console.log(`Response: ${res.url}`));
+    // return server.listen({ port: 5012 })
+});
+
+(async (typeDefs, resolvers) => {
+    const app = express();
+    const schema = makeExecutableSchema({ typeDefs, resolvers });
+    const httpServer = createServer(app);
+    const pubSub = new PubSub();
+
+    const server = new ApolloServer({ 
+        schema,
+        context: ({req}) => ({ req, pubSub }),
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), {
+            async serverWillStart() {
+                return {
+                    async drainServer() {
+                        subscriptionServer.close();
+                    }
+                }
+            }
+        }],
+    });
+
+    const subscriptionServer = SubscriptionServer.create({
+        schema,
+        execute,
+        subscribe,
+        async onConnect() {
+            console.log('Connected!');
+            return {
+                pubSub
+            }
+        },
+        onDisconnect() {
+            console.log('Disconnected!');
+        }
+    }, {
+        server: httpServer,
+        path: server.graphqlPath
+    })
+
+    await server.start();
+    server.applyMiddleware({ app });
+
+    await new Promise(resolve => httpServer.listen({ port: 5012 }, resolve));
+    console.log(`Server ready at  http://localhost:5012${server.graphqlPath}`);
+})(typeDefs, resolvers);
+
