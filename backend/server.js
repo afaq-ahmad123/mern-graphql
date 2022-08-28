@@ -13,12 +13,11 @@ const mongoose = require('mongoose');
 const resolvers = require('./graphQL');
 const typeDefs = require('./graphQL/typeDefs');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
-
+const PORT = process.env.PORT || 5012;
 
 mongoose.connect('mongodb://localhost:27017/graphQl').then(() => {
     console.log('DB connected!!');
-    // return server.listen({ port: 5012 })
-});
+}).catch(err => console.log(err));
 
 (async (typeDefs, resolvers) => {
     const app = express();
@@ -61,7 +60,7 @@ mongoose.connect('mongodb://localhost:27017/graphQl').then(() => {
     await server.start();
     server.applyMiddleware({ app });
 
-    await new Promise(resolve => httpServer.listen({ port: 5012 }, resolve));
-    console.log(`Server ready at  http://localhost:5012${server.graphqlPath}`);
+    await new Promise(resolve => httpServer.listen({ port: PORT }, resolve));
+    console.log(`Server ready at  http://localhost:${PORT}${server.graphqlPath}`);
 })(typeDefs, resolvers);
 
