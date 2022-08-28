@@ -1,47 +1,39 @@
-import { gql, useQuery } from '@apollo/client';
-import { Grid } from 'semantic-ui-react'
+import { useQuery } from '@apollo/client';
+import { useContext } from 'react';
+import { Grid, Transition } from 'semantic-ui-react'
+import { AuthContext } from '../context/auth';
+import { GET_POSTS } from '../utils/graphqlQueries';
+import AddPost from './AddPost';
 import Card from './Card';
 
 function Home () {
     const { loading, error, data } = useQuery(GET_POSTS);
-
-    console.log(data);
+    const { user } = useContext(AuthContext);
     return (
-        <Grid columns={3} divided>
-            <Grid.Row>
-                Recent Posts
+        <Grid columns={3}>
+            <Grid.Row padded="false">
+                <h1>Recent Posts</h1>
             </Grid.Row>
             <Grid.Row>
+                {user && (
+                    <Grid.Column>
+                        <AddPost />
+                    </Grid.Column>
+                )}
                 {loading ? (
                     <h1>Loading Posts...</h1>
                 ) : (
-                    data?.getPosts?.map(post => (
-                        <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-                            <Card post={post} />
-                        </Grid.Column>
-                    ))
+                    <Transition.Group>
+                        {data?.getPosts?.map(post => (
+                            <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                                <Card post={post} />
+                            </Grid.Column>
+                        ))}
+                    </Transition.Group>
                 )}
             </Grid.Row>
         </Grid>
     );
 };
-
-const GET_POSTS = gql`
-    {
-        getPosts {
-            id content username createdAt
-            comments {
-            content
-            id
-            }
-            likes {
-            username
-            id
-            }
-            likesCount
-            commentsCount
-        }
-    }
-`;
 
 export default Home;

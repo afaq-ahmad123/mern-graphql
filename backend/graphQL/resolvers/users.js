@@ -27,7 +27,7 @@ module.exports = {
     },
 
     Mutation: {
-        login: async (_, { username, password}) => {
+        login: async (_, { username, password }) => {
             const { errors, valid } = validateLoginInput(username, password);
             if (!valid) {
                 throw new UserInputError('Errors', { errors });
@@ -56,8 +56,8 @@ module.exports = {
             if (!valid) {
                 throw new UserInputError('Errors', { errors });
             }
-
             const exists = await User.findOne({ username });
+
             if (exists) {
                 throw new UserInputError('User already exists', {
                     errors: {
