@@ -24,7 +24,7 @@
 ## Try Build
  - You can also try server builds using `npm run build`
 
-## Packages User
+## Packages Used
 
 ### Frontend Packages
     - apollo/client v3.6.9,
