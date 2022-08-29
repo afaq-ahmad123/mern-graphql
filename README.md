@@ -10,7 +10,7 @@
  - Like/Unlike any Post
  - View Detail page of any view
  - Comment on any Post
- - Delete your Post & Comment
+ - Delete your Posts & Comments
 
 ## Run Locally
  - Take latest pull using `git pull origin main`
