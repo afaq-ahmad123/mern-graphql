@@ -1,3 +1,4 @@
+import React from "react";
 import { useMutation } from "@apollo/client";
 import { useContext } from "react";
 import { useState } from "react";
@@ -24,7 +25,7 @@ function Login () {
             navigate('/');
         },
         onError(err) {
-            setError(err.graphQLErrors[0]?.extensions.errors);
+            setError(err?.graphQLErrors[0]?.extensions?.errors);
         },
         variables: formData
     });
