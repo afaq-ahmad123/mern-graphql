@@ -46,7 +46,6 @@
 
 ## to stop all containers
     - docker-compose down
->>>>>>> 64f91cc8e43c1047acd968530ed6bbde097693e0
 
 ## to stop and remove all containers
     - docker-compose down -v
