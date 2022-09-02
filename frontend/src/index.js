@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:5012/graphql'
+    uri: 'http://127.0.0.1:5012/graphql'
 });
 
 const authLink = setContext((_, { headers }) => {

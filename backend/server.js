@@ -13,9 +13,9 @@ const mongoose = require('mongoose');
 const resolvers = require('./graphQL');
 const typeDefs = require('./graphQL/typeDefs');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
-const PORT = process.env.PORT || 5012;
+const PORT = process.env.PORT || 5000;
 
-mongoose.connect('mongodb://localhost:27017/graphQl').then(() => {
+mongoose.connect('mongodb://127.0.0.1:27017/graphQl').then(() => {
     console.log('DB connected!!');
 }).catch(err => console.log(err));
 

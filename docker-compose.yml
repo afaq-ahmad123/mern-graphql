@@ -1,45 +1,40 @@
 version: '3.7'
 
 services:
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    image: myapp-server
-    container_name: myapp-node-server
-    command: /usr/src/app/node_modules/.bin/nodemon server.js
-    volumes:
-      - ./server/:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - "5000:5000"
-    depends_on:
-      - mongo
-    env_file: ./server/.env
-    environment:
-      - NODE_ENV=development
-    networks:
-      - app-network
   mongo:
     image: mongo
     volumes:
       - data-volume:/data/db
     ports:
-      - "27017:27017"
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: graphQl
     networks:
       - app-network
-  client:
+
+  backend:
     build:
-      context: ./client
+      context: ./backend
       dockerfile: Dockerfile
-    image: myapp-client
-    container_name: myapp-react-client
+    image: myapp-backend
+    container_name: myapp-node-backend
     command: npm start
-    volumes:
-      - ./client/:/usr/app
-      - /usr/app/node_modules
     depends_on:
-      - server
+      - mongo
+    ports:
+      - "5012:5000"
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: myapp-frontend
+    container_name: myapp-react-frontend
+    command: npm start
+    depends_on:
+      - backend
     ports:
       - "3000:3000"
     networks:
@@ -51,6 +46,5 @@ networks:
 
 volumes:
     data-volume:
-    node_modules:
     web-root:
       driver: local
