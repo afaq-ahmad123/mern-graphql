@@ -40,5 +40,13 @@
     - subscriptions-transport-ws v0.11.0,
 
 ### Deployment
-    - just run sudo docker-compose up -d while in root directory
 
+## just run
+    - docker-compose up -d
+
+## to stop all containers
+    - docker-compose down
+>>>>>>> 64f91cc8e43c1047acd968530ed6bbde097693e0
+
+## to stop and remove all containers
+    - docker-compose down -v
