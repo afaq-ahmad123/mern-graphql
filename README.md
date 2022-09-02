@@ -40,6 +40,11 @@
     - subscriptions-transport-ws v0.11.0,
 
 ### Deployment
-**Under Progress**
+just run 
+docker-compose up -d
 
+to stop all containers
+docker-compose down
 
+to stop and remove all containers
+docker-compose down -v
