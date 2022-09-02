@@ -41,10 +41,10 @@
 
 ### Deployment
 just run 
-docker-compose up -d
+    - docker-compose up -d
 
 to stop all containers
-docker-compose down
+    - docker-compose down
 
 to stop and remove all containers
 docker-compose down -v
