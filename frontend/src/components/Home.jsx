@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useContext } from 'react';
 import { Grid, Transition } from 'semantic-ui-react'

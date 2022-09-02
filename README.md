@@ -40,6 +40,5 @@
     - subscriptions-transport-ws v0.11.0,
 
 ### Deployment
-**Under Progress**
-
+    - just run sudo docker-compose up -d while in root directory
 

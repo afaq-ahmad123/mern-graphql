@@ -1,13 +1,16 @@
-FROM node:10.16-alpine
+FROM node:16.15.0
 
-WORKDIR /src/app
+RUN mkdir -p /app
+
+WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm i --silent
+Run npm install -g npm@8.19.1
+# COPY package-lock.json .
+RUN npm install --silent
 
-COPY . .
+COPY . ./
+CMD ["npm", "start"]
 
 EXPOSE 3000
-
-CMD ['npm', 'start']
